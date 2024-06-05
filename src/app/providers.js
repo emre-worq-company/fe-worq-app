@@ -14,7 +14,10 @@ export default function StoreProvider({ children }) {
 
   return (
     <PrimeReactProvider value={{ unstyled: true }}>
-        <Provider store={storeRef.current}>{children}</Provider>
+        <Provider store={storeRef.current}>
+          {children}
+          <ToastContainer theme="colored" autoClose={2000} />
+        </Provider>
     </PrimeReactProvider>
   );
 }
