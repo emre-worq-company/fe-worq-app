@@ -3,15 +3,13 @@
 import { useRef } from 'react'
 import { Provider } from 'react-redux'
 import { makeStore } from '@/redux/store'
+import { SessionProvider } from "next-auth/react";
 import { PrimeReactProvider } from 'primereact/api';
 
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
-import { errorInterceptor } from '@/app/errorInterceptor';
-
 export default function StoreProvider({ children }) {
-  errorInterceptor();
 
   const storeRef = useRef()
   if (!storeRef.current) {
@@ -20,11 +18,13 @@ export default function StoreProvider({ children }) {
   }
 
   return (
-    <PrimeReactProvider value={{ unstyled: true }}>
-        <Provider store={storeRef.current}>
-          {children}
-          <ToastContainer theme="colored" autoClose={2000} />
-        </Provider>
-    </PrimeReactProvider>
+    <SessionProvider>
+      <PrimeReactProvider value={{ unstyled: true }}>
+          <Provider store={storeRef.current}>
+            {children}
+            <ToastContainer theme="colored" autoClose={2000} />
+          </Provider>
+      </PrimeReactProvider>
+    </SessionProvider>
   );
 }
